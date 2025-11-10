@@ -21,13 +21,24 @@ jobs:
           npm ci
           npm run build
 
-      - name: Deploy via FTPS
+      - name: Deploy to non-www domain
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }} # npr: ftpcluster.loopia.se
-          username: ${{ secrets.FTP_USERNAME }} # tvoje FTP korisničko ime
-          password: ${{ secrets.FTP_PASSWORD }} # lozinka
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
-          local-dir: dist/ # Vite build output
-          server-dir: bojovichwinetasting.rs/public_html/ # promeni ako ti je npr. /public_html/
+          local-dir: dist/
+          server-dir: bojovichwinetasting.rs/public_html/
+
+      - name: Deploy to www domain
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: dist/
+          server-dir: www.bojovichwinetasting.rs/public_html/
