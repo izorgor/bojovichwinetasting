@@ -17,6 +17,9 @@ jobs:
           node-version: 20
 
       - name: Install & Build
+        env:
+          VITE_SHEET_ID: ${{ secrets.VITE_SHEET_ID }}
+          VITE_SHEET_GID: ${{ secrets.VITE_SHEET_GID }}
         run: |
           npm ci
           npm run build
