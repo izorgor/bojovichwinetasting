@@ -27,7 +27,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }} # npr: ftpcluster.loopia.se
           username: ${{ secrets.FTP_USERNAME }} # tvoje FTP korisničko ime
           password: ${{ secrets.FTP_PASSWORD }} # lozinka
-          protocol: ftp
+          protocol: ftps
           port: 21
           local-dir: dist/ # Vite build output
           server-dir: /public_html/ # promeni ako ti je npr. /public_html/
