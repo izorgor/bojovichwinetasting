@@ -1,32 +1,27 @@
+// eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import tseslint from 'typescript-eslint';
-import prettier from 'eslint-config-prettier';
 
+// FLAT CONFIG — bez duplog definisanja plugina
 export default tseslint.config([
-  {
-    ignores: ['dist'],
-  },
+  { ignores: ['dist', 'node_modules'] },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2023,
-      globals: globals.browser,
+      ecmaVersion: 2022,
       sourceType: 'module',
+      globals: globals.browser,
     },
-    settings: { react: { version: 'detect' } },
-    plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
     extends: [
       js.configs.recommended,
-      ...tseslint.configs.recommended,
+      tseslint.configs.recommended,
+      // VAŽNO: samo jednom ubacujemo hookove i refresh
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
-      prettier, // mora biti poslednji
     ],
-    rules: {
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    },
+    // NEMA "plugins: { 'react-hooks': reactHooks }" jer to duplira plugin 😉
   },
 ]);

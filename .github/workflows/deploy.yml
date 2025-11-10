@@ -24,10 +24,10 @@ jobs:
       - name: Deploy via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}          # npr: ftpcluster.loopia.se
-          username: ${{ secrets.FTP_USERNAME }}      # tvoje FTP korisničko ime
-          password: ${{ secrets.FTP_PASSWORD }}      # lozinka
+          server: ${{ secrets.FTP_SERVER }} # npr: ftpcluster.loopia.se
+          username: ${{ secrets.FTP_USERNAME }} # tvoje FTP korisničko ime
+          password: ${{ secrets.FTP_PASSWORD }} # lozinka
           protocol: ftps
           port: 21
-          local-dir: dist/                           # Vite build output
-          server-dir: /                              # promeni ako ti je npr. /public_html/
+          local-dir: dist/ # Vite build output
+          server-dir: / # promeni ako ti je npr. /public_html/
