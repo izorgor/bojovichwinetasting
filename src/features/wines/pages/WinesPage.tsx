@@ -7,7 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useSearch, useNavigate } from '@tanstack/react-router';
 import Page from '@shared/ui/Page';
-import { useWines, applyFilters, SortKey } from '../hooks';
+import { useWines, applyFilters, getUniqueWineries, SortKey } from '../hooks';
 import WineCard from '../components/WineCard';
 import SearchBar from '../components/SearchBar';
 import Filters from '../components/Filters';
@@ -33,6 +33,8 @@ export default function WinesPage() {
     });
   };
 
+  const availableWineries = useMemo(() => getUniqueWineries(data), [data]);
+
   const filtered = useMemo(
     () =>
       applyFilters(data, {
@@ -42,6 +44,9 @@ export default function WinesPage() {
         yearTo: search.yearTo,
         priceMin: search.priceMin,
         priceMax: search.priceMax,
+        wineries: search.wineries,
+        ratingMin: search.ratingMin,
+        ratingMax: search.ratingMax,
       }),
     [data, search],
   );
@@ -56,6 +61,10 @@ export default function WinesPage() {
           yearTo={search.yearTo}
           priceMin={search.priceMin}
           priceMax={search.priceMax}
+          wineries={search.wineries}
+          ratingMin={search.ratingMin}
+          ratingMax={search.ratingMax}
+          availableWineries={availableWineries}
           onFiltersChange={updateSearch}
         />
       </Box>

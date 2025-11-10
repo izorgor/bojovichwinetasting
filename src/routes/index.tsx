@@ -9,6 +9,9 @@ const winesSearchSchema = z.object({
   yearTo: z.number().optional().catch(undefined),
   priceMin: z.number().optional().catch(undefined),
   priceMax: z.number().optional().catch(undefined),
+  wineries: z.array(z.string()).optional().catch(undefined),
+  ratingMin: z.number().optional().catch(undefined),
+  ratingMax: z.number().optional().catch(undefined),
 });
 
 export const Route = createFileRoute('/')({

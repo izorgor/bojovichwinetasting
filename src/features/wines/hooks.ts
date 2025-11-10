@@ -23,21 +23,43 @@ export interface WineFilters {
   yearTo?: number | null;
   priceMin?: number | null;
   priceMax?: number | null;
+  wineries?: string[] | null;
+  ratingMin?: number | null;
+  ratingMax?: number | null;
 }
 
 // helper koji sigurno vraća lowercase string
 const lc = (v: unknown) => (v ?? '').toString().toLowerCase();
 
+// Funkcija za dobijanje liste svih vinarija iz podataka
+export function getUniqueWineries(data: Wine[] | undefined): string[] {
+  if (!data) return [];
+
+  const wineries = new Set<string>();
+  data.forEach((wine) => {
+    if (wine.wineryName) {
+      wineries.add(wine.wineryName);
+    }
+  });
+
+  return Array.from(wineries).sort();
+}
+
 export function applyFilters(data: Wine[] | undefined, filters: WineFilters) {
   if (!data) return [];
 
   let out = data;
-  const { q = '', sort = null, yearFrom, yearTo, priceMin, priceMax } = filters;
+  const { q = '', sort = null, yearFrom, yearTo, priceMin, priceMax, wineries, ratingMin, ratingMax } = filters;
 
   // pretraga po vinariji ili imenu vina
   const needle = lc(q).replace(/^@/, '');
   if (needle) {
     out = out.filter((w) => lc(w.wineryHandle).includes(needle) || lc(w.name).includes(needle));
+  }
+
+  // filter po vinarijama (multi-select)
+  if (wineries && wineries.length > 0) {
+    out = out.filter((w) => w.wineryName && wineries.includes(w.wineryName));
   }
 
   // filter po godini
@@ -59,6 +81,16 @@ export function applyFilters(data: Wine[] | undefined, filters: WineFilters) {
       if (price == null) return false;
       if (priceMin != null && price < priceMin) return false;
       if (priceMax != null && price > priceMax) return false;
+      return true;
+    });
+  }
+
+  // filter po oceni (rating range)
+  if (ratingMin != null || ratingMax != null) {
+    out = out.filter((w) => {
+      if (w.rating == null) return false;
+      if (ratingMin != null && w.rating < ratingMin) return false;
+      if (ratingMax != null && w.rating > ratingMax) return false;
       return true;
     });
   }
