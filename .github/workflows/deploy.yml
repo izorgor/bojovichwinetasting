@@ -30,4 +30,4 @@ jobs:
           protocol: ftps
           port: 21
           local-dir: dist/ # Vite build output
-          server-dir: /public_html/ # promeni ako ti je npr. /public_html/
+          server-dir: bojovichwinetasting.rs/public_html/ # promeni ako ti je npr. /public_html/
