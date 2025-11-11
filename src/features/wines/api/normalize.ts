@@ -8,7 +8,9 @@ export const wineRowSchema = z.object({
     .number()
     .optional()
     .nullable()
-    .transform((v: number | null | undefined) => (v != null && Number.isFinite(v) ? Number(v) : null)),
+    .transform((v: number | null | undefined) =>
+      v != null && Number.isFinite(v) ? Number(v) : null,
+    ),
   wine_caption_srb: z
     .string()
     .nullable()
@@ -23,17 +25,23 @@ export const wineRowSchema = z.object({
     .number()
     .nullable()
     .optional()
-    .transform((v: number | null | undefined) => (v != null && Number.isFinite(v) ? Number(v) : null)),
+    .transform((v: number | null | undefined) =>
+      v != null && Number.isFinite(v) ? Number(v) : null,
+    ),
   wine_price_rsd: z.coerce
     .number()
     .nullable()
     .optional()
-    .transform((v: number | null | undefined) => (v != null && Number.isFinite(v) ? Number(v) : null)),
+    .transform((v: number | null | undefined) =>
+      v != null && Number.isFinite(v) ? Number(v) : null,
+    ),
   wine_price_eur: z.coerce
     .number()
     .nullable()
     .optional()
-    .transform((v: number | null | undefined) => (v != null && Number.isFinite(v) ? Number(v) : null)),
+    .transform((v: number | null | undefined) =>
+      v != null && Number.isFinite(v) ? Number(v) : null,
+    ),
   wine_image_url: z
     .string()
     .nullable()
@@ -52,21 +60,6 @@ const extractBaseName = (name: string): string => {
   let base = name.replace(/\s*@[\w._-]+/g, '').trim();
   base = base.replace(/\s(19|20)\d{2}\s*$/, '').trim();
   return base || name.trim();
-};
-
-const normalizeImageUrl = (url: string | null): string | null => {
-  if (!url) return null;
-
-  // Ako već ima http/https, vrati kao što jeste
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    return url;
-  }
-
-  // Inače, dodaj prefix
-  const baseUrl = 'https://bojovichwinetasting.rs/img/';
-  // Ukloni početni slash ako postoji
-  const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
-  return baseUrl + cleanUrl;
 };
 
 export function toWine(row: WineRow): Wine {
@@ -91,6 +84,6 @@ export function toWine(row: WineRow): Wine {
     priceEur: parsed.wine_price_eur ?? null,
     captionSrb: parsed.wine_caption_srb ?? null,
     captionEng: parsed.wine_caption_eng ?? null,
-    imageUrl: normalizeImageUrl(parsed.wine_image_url),
+    imageUrl: parsed.wine_image_url ?? null,
   };
 }
