@@ -73,6 +73,11 @@ export function toWine(row: WineRow): Wine {
   const idSeed = `${wineryHandle ?? 'unknown'}|${name}|${year ?? ''}`;
   const id = idSeed.toLowerCase().replace(/\s+/g, '-');
 
+  // Dodaj /img/ prefix ako imageUrl postoji i nije prazan string
+  const imageUrl = parsed.wine_image_url
+    ? `/img/${parsed.wine_image_url}`
+    : null;
+
   return {
     id,
     wineryName,
@@ -84,6 +89,6 @@ export function toWine(row: WineRow): Wine {
     priceEur: parsed.wine_price_eur ?? null,
     captionSrb: parsed.wine_caption_srb ?? null,
     captionEng: parsed.wine_caption_eng ?? null,
-    imageUrl: parsed.wine_image_url ?? null,
+    imageUrl,
   };
 }

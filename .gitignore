@@ -26,3 +26,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Wine images (maintained on server)
+public/img/*
+!public/img/.gitkeep

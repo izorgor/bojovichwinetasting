@@ -1,0 +1,3 @@
+# Ovaj folder sadrži slike vina
+# Slike se ne commituju u git već se održavaju na serveru
+# Deploy workflow će excludovati img/** folder da ga ne briše
